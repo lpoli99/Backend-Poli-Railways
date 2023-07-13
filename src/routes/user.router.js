@@ -5,6 +5,7 @@ import uploader from "../utils/uploader.js"
 const router = Router()
 const userController = new UserController
 
+router.get('/', userController.getusers)
 router.get('/premium/:uemail', userController.roleSwitch)
 router.get('/changePassword/:token', userController.renderChangePassword)
 router.post('/changePassword', userController.changePassword)

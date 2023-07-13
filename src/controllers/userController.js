@@ -3,7 +3,6 @@ import { request } from "express"
 import { createHash, isValidPassword } from "../utils/bcrypt.js"
 import UserService from "../services/userService.js"
 import config from '../config/env.js'
-import user from "../Dao/models/users.model.js"
 
 const userService = new UserService
 
@@ -74,6 +73,24 @@ class UserController{
             console.log('Documents: ', documents)
             let user = await userService.uploadDoc(uemail, documents)
             res.send({status: 'Ok', link: req.file.path, user})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    getusers = async (req = request, res) => {
+        try {
+            let users = await userService.getUsers()
+            let sUsers = []
+            users.forEach(user => {
+                sUsers.push({
+                    first_name: user.first_name,
+                    last_name: user.last_name,
+                    email: user.email,
+                    role: user.role
+                })
+            });
+            res.send({status: "Ok", data: sUsers})
         } catch (error) {
             console.log(error)
         }
