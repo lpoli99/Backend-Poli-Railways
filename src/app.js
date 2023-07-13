@@ -26,7 +26,7 @@ import swaggerUiExpress from 'swagger-ui-express'
 dbConnection()
 
 const app = express()
-const PORT = config.Port
+const PORT = config.Port || 8080
 
 const productManager = new ProductManager()
 
