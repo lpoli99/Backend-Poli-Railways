@@ -1,0 +1,185 @@
+paths:
+  /api/products/:
+    get:
+      summary: Obtiene todos los productos
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Productos obtenidos!
+          content:
+            applications/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        "500":
+          description: No se pudo obtener los productos! :(
+
+    post:
+      summary: Agrega un producto a la base de datos
+      tags:
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/addProduct'
+      responses:
+        "200":
+          description: Producto agregado!
+        "400":
+          description: No tienes permisos! :/
+        "500":
+          description: No se pudo agregar el producto :(
+
+  /api/products/{pid}:
+    get:
+      summary: Obtiene un producto por su Id
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto
+        schema:
+          $type: String
+      responses: 
+        "200":
+          description: Producto obtenido!
+          content:
+            applications/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+        "500":
+          description: No se pudo obtener el producto :(
+
+    put:
+      summary: Actualiza un producto
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto a actualizar
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/updateProduct'
+      responses: 
+        "200":
+          description: Producto actualizado!
+        "500":
+          description: No se pudo actualizar el producto :(
+    
+    delete:
+      summary: Elimina un produtco
+      tags:
+        - Products
+      parameters:
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto a eliminar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto eliminado!
+        "400":
+          description: No tienes permisos! :/
+        "500":
+          description: No se pudo eliminar el producto :(
+
+components: 
+  schemas: 
+    Product:
+      type: object
+      properties: 
+        _id:
+          type: String
+          description: Id generado por Mongo
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: Number
+          description: Codigo del producto, unico e irrepetible
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: String
+          description: Estado del producto
+        stock:
+          type: Number
+          description: Stock disponible del producto
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto
+        thumbnail:
+          type: String
+          description: Link a la imagen del producto
+        owner:
+          type: String
+          description: E-mail del que haya creado el producto (o admin)
+      example: 
+        _id: ObjectId("fweq6trjasd7ntyh8q7e.werv5sdf2")
+        title: Producto
+        description: Descripcion del producto
+        code:  123
+        price: 100
+        status: 'true'
+        stock: 20
+        category: Keyboards
+        thumbnail: linkEjemplo.jpg
+        owner: admin
+  requestBodies:
+    addProduct:
+      type: object
+      properties:
+        title:
+          type: String
+          description: Titulo del producto
+        description:
+          type: String
+          description: Descripcion del producto
+        code:
+          type: Number
+          description: Codigo del producto, unico e irrepetible
+        price:
+          type: Number
+          description: Precio del producto
+        status:
+          type: String
+          description: Estado del producto
+        stock:
+          type: Number
+          description: Stock disponible del producto
+        category:
+          type: String
+          description: Categoria a la que pertenece el producto
+        thumbnail:
+          type: String
+          description: Link a la imagen del producto
+      example: 
+        title: Producto 1
+        description: Descripcion del producto
+        code:  123
+        price: 100
+        status: 'true'
+        stock: 20
+        category: Keyboards
+        thumbnail: linkEjemplo.jpg

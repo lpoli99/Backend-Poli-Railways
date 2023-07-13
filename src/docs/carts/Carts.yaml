@@ -1,0 +1,237 @@
+paths:
+  /api/carts/:
+    post:
+      summary: Crea un carrito
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carrito creado!
+        "500":
+          description: No se pudo creer el carrito! :(
+
+  /api/carts/{cid}:
+    get:
+      summary: Obtiene un carrito con los productos
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito a obtener
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Carrito obtenido!
+          content:
+            aplications/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+        "500":
+          description: No se pudo obtener el carrito! :(
+
+    delete:
+      summary: Se eliminan todos los productos del carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito a eliminar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Carrito eliminado!
+        "500":
+          description: No se pudo eliminar el carrito! :(
+
+    put:
+      summary: Se remplazan los productos del carrito recibido por params por un array obtenido por req.body
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito
+        schema:
+          $type: String
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#components/requestBodies/addProduct'
+      responses: 
+        "200":
+          description: Carrito actualizado!
+        "500":
+          description: No se pudo actualizar el carrito! :(
+
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: Agrega un producto al carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito donde se desea agregar el producto
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto a agregar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto agregado!
+        "500":
+          description: No se pudo agregar el producto al carrito! :(
+
+    put:
+      summary: Actualiza un producto del carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito con el producto a actualizar
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto a actualizar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto actualizado!
+        "500":
+          description: No se pudo actualizar el producto del carrito! :(
+
+    delete:
+      summary: Elimina un producto del carrito
+      tags:
+        - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito que contiene el produto a eliminar
+        schema:
+          $type: String
+      - name: pid
+        in: path
+        required: true
+        description: Id del producto a eliminar
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Producto eliminado!
+        "500":
+          description: No se pudo eliminar el producto del carrito :(
+
+  /api/carts/{cid}/purchase:
+    get:
+      summary: Se genera y se recibe un ticket de la compra
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        description: Id del carrito del que se desea realizar la compra
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: Compra exitosa!
+          content:
+            aplications/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+        "500":
+          description: No se pudo realizar el pago! :(
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: Id generado por Mongo
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              pid:
+                type: string
+                description: Id del producto
+              quantity:
+                type: Number
+                description: Cantidad de producto
+          description: Lista de etiquetas
+      example:
+        _id: ObjectId("dkhf9f8refw4kasd.65f4wef2")
+        products:
+          - pid: 5f6d4s7f15sd9f87sd87fsdf
+            quantity: 1
+          - pid: 9ds4gwt3h5ns41dfg5d8ds7g
+            quantity: 1
+
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: Number
+          description: Codigo de compra
+        purchase_datetime:
+          type: String
+          description: Hora en el momento de la compra
+        amount:
+          type: Number
+          description: Total a pagar
+        purchaser:
+          type: String
+          description: E-mail del cliente
+      example:
+        code: 408
+        purchase_datetime: "28/5/2023"
+        amount: 599
+        purchaser: usuario@gmail.com
+
+  requestBodies:
+    uploadCart:
+      type: array
+      items:
+        type: object
+        properties:
+          pid:
+            type: string
+            description: Id del producto
+          quantity:
+            type: Number
+            description: Cantidad de producto del mismo tipo
+      description: Lista de etiquetas
+      example:
+        - pid: 8527a49841b98479541g9fd8
+          quantity: 3
+        - pid: few947f6w5ef16v5e5jkl563
+          quantity: 3

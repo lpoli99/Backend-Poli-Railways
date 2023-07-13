@@ -1,0 +1,20 @@
+<div>
+    <h2>Cart's Products</h2>
+    
+    {{#each products}}
+        <div>
+            <h3>Title: {{this.pid.title}}</h3>
+            <p>Description: {{this.pid.description}}</p>
+            <p>Category: {{this.pid.category}}</p>
+            <p>Stock: {{this.pid.stock}}</p>
+        </div>
+    {{/each}}
+
+    {{#if hasPrevPage}}
+        <a href="/products?page={{prevPage}}&&query={{query}}&&limit={{limit}}"><button>Previous</button></a>
+    {{/if}}
+    <p>{{page}}</p>
+    {{#if hasNextPage}}
+        <a href="/products?page={{nextPage}}&&query={{query}}&&limit={{limit}}"><button>Next</button></a>
+    {{/if}}
+</div>

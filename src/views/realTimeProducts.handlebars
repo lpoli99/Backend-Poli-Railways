@@ -1,0 +1,65 @@
+<div>
+    <h2>Add a Product</h2>
+    <form>
+        <label>Title</label> <br>
+        <input type="text" name="title" id="title"> 
+        <br>
+
+        <label>Description</label> <br>
+        <input type="text" name="description" id="description"> 
+        <br>
+
+        <label>Code</label> <br>
+        <input type="number" name="code" id="code"> 
+        <br>
+
+        <label>Price</label> <br>
+        <input type="number" name="price" id="price"> 
+        <br>
+
+        <label>Status</label> <br>
+        <input type="text" name="status" id="status"> 
+        <br>
+
+        <label>Stock</label> <br>
+        <input type="number" name="stock" id="stock"> 
+        <br>
+
+        <label>Category</label> <br>
+        <input type="text" name="category" id="category"> 
+        <br>
+
+        <label>Image</label> <br>
+        <input type="text" name="thumbnail" id="thumbnail"> 
+        <br>
+
+        <input type="submit" id="submitProduct">
+    </form>
+
+    <hr>
+
+    <h2>Delete a product</h2>
+    <form>
+        <label>Product Name</label>
+        <input type="text" name="title" id="titleDelete"> 
+        <br>
+        <input type="submit" id="deleteProduct">
+    </form>
+
+    <h2>All products</h2>
+
+    <div id="container"></div>
+    
+    <div>
+        <input type="text" name="chatbox" id="chatBox">
+    </div>
+
+    <div>
+        <ul id="messageLogs"></ul>
+    </div>
+
+
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="../public/js/index.js"></script>
